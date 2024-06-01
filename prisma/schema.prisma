@@ -9,6 +9,68 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  image String? 
+  email String? @unique
+  emailVerified DateTime @default(now())
+  hashedPassword String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  favoriteIds Int[]
+  sessions Session[]
+  accounts Account[]
+}
+
+model Account {
+  id Int @id @default(autoincrement())
+  userId Int
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String?
+  access_token String?
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String?
+  session_state String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+  userId Int
+  sessionToken String @unique
+  expires DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id Int @id @default(autoincrement())
+  identifier String
+  token String
+  expires DateTime
+
+  @@unique([identifier, token])
+}
+
+model Movie {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  videoUrl String
+  thumbnailUrl String
+  genre String
+  duration String
 }
