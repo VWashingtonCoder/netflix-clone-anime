@@ -15,17 +15,20 @@ export default function Auth() {
     setVariant((current) => (current === "login" ? "register" : "login"));
   }, []);
 
-  const register = useCallback(async () => {
+  const register = async (e: React.MouseEvent<HTMLInputElement>) => {
+    e.preventDefault()
+
     try {
-      await axios.post("/api/register", {
-        email,
-        name,
-        password,
-      });
-    } catch (e) {
-      console.log(e);
+      const res = await axios.post("/api/register", { email, name, password })
+      console.log(res.data)
+    } catch (err) {
+      console.log(err)
     }
-  }, [email, name, password]);
+
+    setEmail("")
+    setName("")
+    setPassword("")
+  }
 
   const login = () => {};
 
