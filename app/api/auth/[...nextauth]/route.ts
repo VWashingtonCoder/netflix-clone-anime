@@ -6,6 +6,7 @@ import prismadb from "@/lib/prismadb";
 export const authOptions = {
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text" },
