@@ -5,6 +5,8 @@ import axios from "axios";
 import Input from "@/components/input";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 export default function Auth() {
   const router = useRouter();
@@ -44,8 +46,6 @@ export default function Auth() {
     }
   };
 
-  
-
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.png')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className="bg-black w-full h-full md:bg-opacity-70">
@@ -82,13 +82,50 @@ export default function Auth() {
               />
             </div>
 
-            <button 
+            <button
               onClick={variant === "login" ? login : register}
               className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
             >
               {variant === "login" ? "Login" : "Sign up"}
             </button>
-            
+
+            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+              <div
+                className="
+                  w-10
+                  h-10
+                  bg-white
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                  cursor-pointer
+                  hover:opacity-80
+                  transition
+                "
+              >
+                <FcGoogle size={30} />
+              </div>
+
+              <div
+                onClick={() => signIn("github", { callbackUrl: "/" })}
+                className="
+                  w-10
+                  h-10
+                  bg-white
+                  rounded-full
+                  flex
+                  items-center
+                  justify-center
+                  cursor-pointer
+                  hover:opacity-80
+                  transition
+                "
+              >
+                <FaGithub size={30} />
+              </div>
+            </div>
+
             <p className="text-neutral-500 mt-12">
               {variant === "login"
                 ? `First time here? `

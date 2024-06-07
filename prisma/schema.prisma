@@ -15,32 +15,32 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  image String? 
-  email String? @unique
-  emailVerified DateTime @default(now())
+  id             Int       @id @default(autoincrement())
+  name           String
+  image          String?
+  email          String?   @unique
+  emailVerified  DateTime?
   hashedPassword String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  favoriteIds Int[]
-  sessions Session[]
-  accounts Account[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  favoriteIds    Int[]
+  sessions       Session[]
+  accounts       Account[]
 }
 
 model Account {
-  id Int @id @default(autoincrement())
-  userId Int
-  type String
-  provider String
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
   providerAccountId String
-  refresh_token String?
-  access_token String?
-  expires_at Int?
-  token_type String?
-  scope String?
-  id_token String?
-  session_state String?
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -48,29 +48,29 @@ model Account {
 }
 
 model Session {
-  id Int @id @default(autoincrement())
-  userId Int
-  sessionToken String @unique
-  expires DateTime
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  sessionToken String   @unique
+  expires      DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
-  id Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   identifier String
-  token String
-  expires DateTime
+  token      String
+  expires    DateTime
 
   @@unique([identifier, token])
 }
 
 model Movie {
-  id Int @id @default(autoincrement())
-  title String
-  description String
-  videoUrl String
+  id           Int    @id @default(autoincrement())
+  title        String
+  description  String
+  videoUrl     String
   thumbnailUrl String
-  genre String
-  duration String
+  genre        String
+  duration     String
 }
