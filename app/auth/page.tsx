@@ -22,13 +22,13 @@ export default function Auth() {
 
   const login = useCallback(async () => {
     try {
-      await signIn("credentials", {
+      const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
-        callbackUrl: "/",
       });
-      router.push("/");
+
+      if (res?.ok) router.push("/");
     } catch (e) {
       console.log(e);
     }
@@ -85,12 +85,7 @@ export default function Auth() {
             <button
               onClick={
                 variant === "login"
-                  ? () =>
-                      signIn("credentials", {
-                        email,
-                        password,
-                        callbackUrl: "/",
-                      })
+                  ? login                      
                   : register
               }
               className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
