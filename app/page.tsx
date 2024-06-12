@@ -1,15 +1,14 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
   const { data: session, status } = useSession();
   const user = session?.user;
 
   const logout = async () => {
     const { url } = await signOut({ redirect: false, callbackUrl: "/auth" })
-    if (url) router.push(url)
+    if (url) redirect(url)
     else console.log("Couldn't sign out")
   }
 

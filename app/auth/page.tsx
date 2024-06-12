@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import axios from "axios";
 import Input from "@/app/components/input";
 import Image from "next/image";
@@ -9,11 +9,9 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
 export default function Auth() {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [variant, setVariant] = useState("login");
 
   const toggleVariant = useCallback(() => {
@@ -28,11 +26,11 @@ export default function Auth() {
         redirect: false,
       });
 
-      if (res?.ok) router.push("/");
+      if (res?.ok) redirect("/");
     } catch (e) {
       console.log(e);
     }
-  }, [email, password, router]);
+  }, [email, password]);
 
   const register = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
