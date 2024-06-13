@@ -1,14 +1,16 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   const { data: session, status } = useSession();
   const user = session?.user;
+  const router = useRouter();
 
   const logout = async () => {
     const { url } = await signOut({ redirect: false, callbackUrl: "/auth" })
-    if (url) redirect(url)
+    if (url) router.push(url)
     else console.log("Couldn't sign out")
   }
 
@@ -16,13 +18,15 @@ export default function Home() {
     <>
       <h1 className="text-2xl text-green-500">NekoFlix</h1>
 
-      {status === "authenticated" && (
+      {/* {status === "authenticated" && (
         <p className="text-white">Logged in as {user?.name}</p>
       )}
 
       <button className="h-10 w-full bg-white" onClick={logout}>
         Logout
-      </button>
+      </button> */}
+
+      <Navbar />
     </>
   );
 }
