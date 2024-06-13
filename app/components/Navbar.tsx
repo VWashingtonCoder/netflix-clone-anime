@@ -64,7 +64,7 @@ export default function Navbar() {
             onClick={toggleMobileMenu}
         >
             <p className="text-white text-sm">Browse</p>
-            <BsChevronDown className="text-white transition"/>
+            <BsChevronDown className={`text-white transition ${showMobileMenu && "rotate-180"}`}/>
             <MobileMenu visible={showMobileMenu} />
         </div>
 
@@ -80,7 +80,7 @@ export default function Navbar() {
                 <div className="w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden">
                     <Image src="/images/default-blue.png" alt="profile" width={100} height={100} />
                 </div>
-                <BsChevronDown className="text-white transition" />
+                <BsChevronDown className={`text-white transition ${showAccountMenu && "rotate-180"}`} />
                 <AccountMenu visible={showAccountMenu} />
             </div>
         </div>
