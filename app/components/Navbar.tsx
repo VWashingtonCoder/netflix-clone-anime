@@ -1,8 +1,16 @@
 import Image from "next/image";
 import NavbarItem from "./NavabarItem";
+import MobileMenu from "./MobileMenu";
 import { BsChevronDown } from "react-icons/bs";
+import { useCallback, useState } from "react";
 
 export default function Navbar() {
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+    const toggleMobileMenu = useCallback(() => {
+        setShowMobileMenu((current) => !current)
+    }, [])
+
   return (
     <nav className="w-full fixed z-40">
       <div
@@ -36,9 +44,22 @@ export default function Navbar() {
           <NavbarItem label="My List" />
           <NavbarItem label="Browse by languages" />
         </div>
-        <div className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
+        <div 
+            className="
+                lg:hidden 
+                flex 
+                flex-row 
+                items-center 
+                gap-2 
+                ml-8 
+                cursor-pointer 
+                relative
+            "
+            onClick={toggleMobileMenu}
+        >
             <p className="text-white text-sm">Browse</p>
             <BsChevronDown className="text-white transition"/>
+            <MobileMenu visible={showMobileMenu} />
         </div>
       </div>
     </nav>
