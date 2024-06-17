@@ -9,10 +9,10 @@ export default function Home() {
   const router = useRouter();
 
   const logout = async () => {
-    const { url } = await signOut({ redirect: false, callbackUrl: "/auth" })
-    if (url) router.push(url)
-    else console.log("Couldn't sign out")
-  }
+    const { url } = await signOut({ redirect: false, callbackUrl: "/auth" });
+    if (url) router.push(url);
+    else console.log("Couldn't sign out");
+  };
 
   return (
     <>
