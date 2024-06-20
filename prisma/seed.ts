@@ -66,7 +66,8 @@ async function main() {
       duration: "7 hours",
     },
   });
-  console.log("Data seeded:" + { movie1, movie2, movie3, movie4 })
+  console.log("Data seeded!!!")
+  console.log({ movie1, movie2, movie3, movie4 })
 }
 
 main()

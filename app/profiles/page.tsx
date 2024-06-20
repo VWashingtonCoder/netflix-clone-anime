@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
-import Image from "next/image"
+import Image from "next/image";
 
 const Profiles = () => {
   const { data: session, status } = useSession();
