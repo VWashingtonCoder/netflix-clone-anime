@@ -3,9 +3,10 @@ import Image from "next/image";
 
 interface AccountMenuProps {
   visible?: boolean;
+  username: string | null | undefined
 }
 
-export default function AccountMenu({ visible }: AccountMenuProps) {
+export default function AccountMenu({ visible, username }: AccountMenuProps) {
   if (!visible) {
     return null;
   }
@@ -35,7 +36,7 @@ export default function AccountMenu({ visible }: AccountMenuProps) {
             height={100}
           />
           <p className="text-white text-sm group-hover/item:underline">
-            Username
+            {username}
           </p>
         </div>
         <hr className="bg-gray-600 border-0 h-px my-4" />

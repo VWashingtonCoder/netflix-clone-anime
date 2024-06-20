@@ -4,6 +4,7 @@ import MobileMenu from "./MobileMenu";
 import { BsChevronDown, BsSearch, BsBell } from "react-icons/bs";
 import { useCallback, useEffect, useState } from "react";
 import AccountMenu from "./AccountMenu";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 const TOP_OFFSET = 66;
 
@@ -11,6 +12,7 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
+  const user = useCurrentUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -113,7 +115,7 @@ export default function Navbar() {
                 showAccountMenu && "rotate-180"
               }`}
             />
-            <AccountMenu visible={showAccountMenu} />
+            <AccountMenu visible={showAccountMenu} username={user?.name} />
           </div>
         </div>
       </div>
