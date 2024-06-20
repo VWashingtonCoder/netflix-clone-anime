@@ -1,6 +1,6 @@
 import prismadb from "@/lib/prismadb";
 
-export async function GET(req: Request, res: Response) {
+export async function GET() {
     try {
         const movieCount = await prismadb.movie.count();
         const randomIndex = Math.floor(Math.random() * movieCount);
@@ -9,10 +9,8 @@ export async function GET(req: Request, res: Response) {
             skip: randomIndex
         })
 
-        return Response.json(randomMovies);
+        return Response.json(randomMovies[0]);
     } catch(err) {
         return Response.json({ err }); 
     }
-    
-
 }
