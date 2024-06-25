@@ -1,15 +1,14 @@
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface AccountMenuProps {
   visible?: boolean;
-  username: string | null | undefined
+  username: string | null | undefined;
 }
 
 export default function AccountMenu({ visible, username }: AccountMenuProps) {
-  if (!visible) {
-    return null;
-  }
+  if (!visible) return null;
 
   return (
     <div
@@ -35,16 +34,27 @@ export default function AccountMenu({ visible, username }: AccountMenuProps) {
             width={100}
             height={100}
           />
-          <p className="text-white text-sm group-hover/item:underline">
-            {username}
-          </p>
-        </div>
-        <hr className="bg-gray-600 border-0 h-px my-4" />
-        <div
-          onClick={() => signOut()}
-          className="px-3 text-center text-white text-sm hover:underline"
-        >
-          Sign out of Nekoflix
+          {username ? (
+            <>
+              <p className="text-white text-sm group-hover/item:underline">
+                {username}
+              </p>
+              <hr className="bg-gray-600 border-0 h-px my-4" />
+              <div
+                onClick={() => signOut()}
+                className="px-3 text-center text-white text-sm hover:underline"
+              >
+                Sign out of Nekoflix
+              </div>
+            </>
+          ) : (
+            <Link
+              href="/auth"
+              className="text-white text-sm group-hover/item:underline"
+            >
+              Sign In To Account
+            </Link>
+          )}
         </div>
       </div>
     </div>

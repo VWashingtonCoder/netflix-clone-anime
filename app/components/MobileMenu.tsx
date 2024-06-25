@@ -2,9 +2,10 @@ import MobileMenuItem from "./MobileMenuItem";
 
 interface MobileMenuProps {
     visible?: boolean
+    isUser?: boolean 
 }
 
-export default function MobileMenu({visible}: MobileMenuProps) {
+export default function MobileMenu({ visible, isUser }: MobileMenuProps) {
     if (!visible){
         return null;
     }
@@ -16,8 +17,8 @@ export default function MobileMenu({visible}: MobileMenuProps) {
                 <MobileMenuItem label="Series"/>
                 <MobileMenuItem label="Films"/>
                 <MobileMenuItem label="New & Popular"/>
-                <MobileMenuItem label="My List"/>
                 <MobileMenuItem label="Browse by Languages"/>
+                {isUser && <MobileMenuItem label="My List"/>}
             </div>
         </div>
     )

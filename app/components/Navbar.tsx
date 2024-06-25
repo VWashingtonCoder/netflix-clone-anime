@@ -14,6 +14,8 @@ export default function Navbar() {
   const [showBackground, setShowBackground] = useState(false);
   const user = useCurrentUser();
 
+  console.log(user)
+
   useEffect(() => {
     const handleScroll = () => {
       window.scrollY >= TOP_OFFSET
@@ -52,6 +54,7 @@ export default function Navbar() {
                 `}
       >
         <Image src="/images/logo.png" alt="logo" width={200} height={500} />
+
         <div
           className="
            hidden
@@ -65,9 +68,10 @@ export default function Navbar() {
           <NavbarItem label="Series" />
           <NavbarItem label="Films" />
           <NavbarItem label="New & Popular" />
-          <NavbarItem label="My List" />
           <NavbarItem label="Browse by languages" />
+          {/* { user && <NavbarItem label="My List" /> } */}
         </div>
+        
         <div
           className="
                 lg:hidden 
@@ -87,7 +91,7 @@ export default function Navbar() {
               showMobileMenu && "rotate-180"
             }`}
           />
-          <MobileMenu visible={showMobileMenu} />
+          <MobileMenu visible={showMobileMenu} isUser={user ? true : false} />
         </div>
 
         <div className="flex flex-row ml-auto gap-7 items-center">
