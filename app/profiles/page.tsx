@@ -8,7 +8,6 @@ const Profiles = () => {
   const router = useRouter();
   const user = session?.user
 
-  console.log(status)
   if (status === "unauthenticated") redirect("/auth");
 
   return (
