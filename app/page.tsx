@@ -5,7 +5,7 @@ import MovieList from "./components/MovieList";
 import useMovieList from "@/hooks/useMovieList";
 
 export default function Home() {
-  const { data: movies = [] } = useMovieList();
+  const { data: movies = [] }= useMovieList();
 
   return (
     <>

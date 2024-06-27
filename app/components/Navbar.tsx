@@ -14,8 +14,6 @@ export default function Navbar() {
   const [showBackground, setShowBackground] = useState(false);
   const user = useCurrentUser();
 
-  console.log(user)
-
   useEffect(() => {
     const handleScroll = () => {
       window.scrollY >= TOP_OFFSET

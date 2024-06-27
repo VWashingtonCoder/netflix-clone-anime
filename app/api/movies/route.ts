@@ -1,10 +1,7 @@
 import prismadb from "@/lib/prismadb";
-import serverAuth from "@/lib/serverAuth";
 
 export async function GET() {
-    await serverAuth();
-
-    try {    
+    try {       
         const movies = await prismadb.movie.findMany();
         return Response.json(movies)
     } catch (err) {

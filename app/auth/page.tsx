@@ -34,7 +34,6 @@ export default function Auth() {
 
     try {
       const res = await axios.post("/api/register", { email, name, password });
-      console.log(res.data);
       login();
     } catch (err) {
       console.log(err);
