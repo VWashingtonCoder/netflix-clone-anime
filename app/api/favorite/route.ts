@@ -1,14 +1,78 @@
 import { getSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
+import { NextApiRequest } from "next";
+import { without } from "lodash";
 
-export async function POST(req: Request) {
-    const session = await getSession();
-    if (!session || !session?.user) redirect("/auth");
+export async function POST(req: NextApiRequest) {
+  const session = await getSession();
+  if (!session || !session?.user) redirect("/auth");
 
-    try {
-        
-    } catch (err) {
-        return Response.json({ err });
-    }
+  try {
+    const currentUser = session.user;
+    const { movieId } = req.body;
+
+    const existingMovie = await prismadb.movie.findUnique({
+      where: {
+        id: movieId,
+      },
+    });
+
+    if (!existingMovie) return Response.json({ error: "Invalid id" });
+
+    const updatedUser = await prismadb.user.update({
+      where: {
+        email: currentUser.email || "",
+      },
+      data: {
+        favoriteIds: {
+          push: movieId,
+        },
+      },
+    });
+
+    return Response.json(updatedUser);
+  } catch (err) {
+    return Response.json({ err });
+  }
+}
+
+export async function DELETE(req: NextApiRequest) {
+  const session = await getSession();
+  if (!session || !session?.user) redirect("/auth");
+
+  try {
+    const { movieId } = req.body;
+
+    const currentUser = await prismadb.user.findUnique({
+      where: {
+        email: session.user.email || "",
+      },
+    });
+
+    if (!currentUser) return Response.json({ error: "Invalid user" });
+
+    const existingMovie = await prismadb.movie.findUnique({
+      where: {
+        id: movieId,
+      },
+    });
+
+    if (!existingMovie) return Response.json({ error: "Invalid id" });
+
+    const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
+
+    const updatedUser = await prismadb.user.update({
+      where: {
+        email: currentUser.email || "",
+      },
+      data: {
+        favoriteIds: updatedFavoriteIds,
+      },
+    });
+
+    return Response.json(updatedUser);
+  } catch (err) {
+    return Response.json({ err });
+  }
 }
