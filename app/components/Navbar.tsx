@@ -12,7 +12,7 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
-  const user = useCurrentUser();
+  const { data: user } = useCurrentUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +67,7 @@ export default function Navbar() {
           <NavbarItem label="Films" />
           <NavbarItem label="New & Popular" />
           <NavbarItem label="Browse by languages" />
-          {/* { user && <NavbarItem label="My List" /> } */}
+          { user && <NavbarItem label="My List" /> }
         </div>
         
         <div

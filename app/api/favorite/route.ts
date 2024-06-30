@@ -3,13 +3,14 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import { NextApiRequest } from "next";
 import { without } from "lodash";
+import serverAuth from "@/lib/serverAuth";
 
 export async function POST(req: NextApiRequest) {
   const session = await getSession();
-  if (!session || !session?.user) redirect("/auth");
-
+  if(!session || !session?.user) redirect("/auth");
+  
   try {
-    const currentUser = session.user;
+    const { currentUser } = await serverAuth();
     const { movieId } = req.body;
 
     const existingMovie = await prismadb.movie.findUnique({
@@ -38,19 +39,9 @@ export async function POST(req: NextApiRequest) {
 }
 
 export async function DELETE(req: NextApiRequest) {
-  const session = await getSession();
-  if (!session || !session?.user) redirect("/auth");
-
   try {
+    const { currentUser } = await serverAuth();
     const { movieId } = req.body;
-
-    const currentUser = await prismadb.user.findUnique({
-      where: {
-        email: session.user.email || "",
-      },
-    });
-
-    if (!currentUser) return Response.json({ error: "Invalid user" });
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
