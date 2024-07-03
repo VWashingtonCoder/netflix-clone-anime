@@ -12,6 +12,8 @@ export default function FavoriteButton({ movieId }: FavoriteButtonProps) {
     const { mutate: mutateFavorites } = useFavorites();
     const { data: currentUser, mutate } = useCurrentUser();
 
+
+    
     const isFavorite = useMemo(() => {
         const list = currentUser?.favoriteIds || [];
         return list.includes(movieId);
@@ -22,7 +24,7 @@ export default function FavoriteButton({ movieId }: FavoriteButtonProps) {
 
         isFavorite 
             ? response = await axios.delete("/api/favorite", { data: { movieId } })
-            : response = await axios.post("/api/favorite", { movieId });
+            : response = await axios.post("/api/favorite", { data: { movieId } });
 
         const updatedFavoriteIds = response?.data?.favoriteIds;
 

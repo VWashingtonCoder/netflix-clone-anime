@@ -1,17 +1,17 @@
-import { getSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import { NextApiRequest } from "next";
 import { without } from "lodash";
 import serverAuth from "@/lib/serverAuth";
 
-export async function POST(req: NextApiRequest) {
-  const session = await getSession();
-  if(!session || !session?.user) redirect("/auth");
-  
+export async function POST(req: Request) {
+  const { currentUser } = await serverAuth();
+  if (!currentUser) redirect("/auth");
+
   try {
-    const { currentUser } = await serverAuth();
-    const { movieId } = req.body;
+    const {
+      data: { movieId },
+    } = await req.json();
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
@@ -38,21 +38,25 @@ export async function POST(req: NextApiRequest) {
   }
 }
 
-export async function DELETE(req: NextApiRequest) {
+export async function DELETE(req: Request) {
+  const { currentUser } = await serverAuth();
+  if (!currentUser) redirect("/auth");
+
+  
+
   try {
-    const { currentUser } = await serverAuth();
-    const { movieId } = req.body;
+    const data = await req.json();
+    const { movieId } = data;
 
     const existingMovie = await prismadb.movie.findUnique({
       where: {
         id: movieId,
       },
     });
-
     if (!existingMovie) return Response.json({ error: "Invalid id" });
-
+    
     const updatedFavoriteIds = without(currentUser.favoriteIds, movieId);
-
+    
     const updatedUser = await prismadb.user.update({
       where: {
         email: currentUser.email || "",

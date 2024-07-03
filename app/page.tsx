@@ -8,7 +8,7 @@ import useFavorites from "@/hooks/useFavorites";
 export default function Home() {
   const { data: movies = [] }= useMovieList();
   const { data: favorites = [] } = useFavorites();
-
+  
   return (
     <>
       <Navbar />

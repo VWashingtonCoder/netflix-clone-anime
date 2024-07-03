@@ -8,9 +8,7 @@ const useFavorites = () => {
     revalidateOnReconnect: false,
   });
 
-  return typeof data === "string" 
-    ? { data: [], error, isLoading, mutate }
-    : { data, error, isLoading, mutate }
+  return { data, error, isLoading, mutate }
 };
 
 export default useFavorites;
