@@ -1,13 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
 import { BsFillPlayFill } from "react-icons/bs";
 import FavoriteButton from "./FavoriteButton";
+import { useRouter } from "next/navigation";
+
 
 interface MovieCardProps {
   data: Record<string, any>;
 }
 
 export default function MovieCard({ data }: MovieCardProps) {
+  const router = useRouter();
+
   return (
     <div className="group bg-zinc-900 col-span relative h-[12vw]">
       <img
@@ -91,7 +94,7 @@ export default function MovieCard({ data }: MovieCardProps) {
                         transition
                         hover:bg-neutral-300
                     "
-              onClick={() => {}}
+              onClick={() => router.push(`/watch/${data?.id}`)}
             >
               <BsFillPlayFill size={30} />
             </div>
