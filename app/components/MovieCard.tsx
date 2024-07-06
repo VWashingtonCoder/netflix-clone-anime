@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import useInfoModal from "@/hooks/useInfoModal";
 import { BiChevronDown } from "react-icons/bi";
 
-
 interface MovieCardProps {
   data: Record<string, any>;
 }
@@ -104,7 +103,7 @@ export default function MovieCard({ data }: MovieCardProps) {
 
             <FavoriteButton movieId={data.id} />
 
-            <button 
+            <button
               onClick={() => openModal(data?.id)}
               className="
                 cursor-pointer
@@ -122,9 +121,9 @@ export default function MovieCard({ data }: MovieCardProps) {
                 hover:border-neutral-300
               "
             >
-              <BiChevronDown 
-                className="text-white group-hover/item:text-neutral-300" 
-                size={30} 
+              <BiChevronDown
+                className="text-white group-hover/item:text-neutral-300"
+                size={30}
               />
             </button>
           </div>
