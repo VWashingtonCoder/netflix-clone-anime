@@ -1,16 +1,14 @@
 'use client'
 import React from "react";
 import useMovie from "@/hooks/useMovie";
-import { usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
 const Watch = () => {
+    const router = useRouter();
     const path = usePathname();
     const movieId = path.slice(7);
     const { data } = useMovie(movieId as string);
-
-    console.log("Watch data:")
-    console.log(data)
 
     return (
         <div className="h-screen w-screen bg-black">
@@ -28,16 +26,27 @@ const Watch = () => {
                     bg-opacity-70
                 "
             >
-                <AiOutlineArrowLeft className="text-white" size={40} />
+                <AiOutlineArrowLeft 
+                    className="text-white" 
+                    size={30} 
+                    onClick={() => router.push("/")}
+                />
 
                 <p className="text-white text-1xl md:text-3xl font-bold">
                     <span className="font-light">
                         Watching:
                     </span>
-                    {data?.title}
+                     {` ${data?.title || ""}`}
                 </p>
 
+                
             </nav>
+            <video
+                autoPlay
+                controls
+                className="h-full w-full" 
+                src={data?.videoUrl}
+            ></video>
         </div>
     )       
 }

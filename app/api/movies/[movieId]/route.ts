@@ -6,10 +6,11 @@ export async function GET(req: NextApiRequest) {
     try {
         await serverAuth();
 
-        const { movieId } = req.query;
+        const url = req.url;
+        const movieId = url?.slice(33);
 
         if (typeof movieId !== "string" || !movieId) 
-            throw new Error("Invalid ID")
+            Response.json({ error: "Invalid Id" })
         
         const movie = await prismadb.movie.findUnique({
             where: {
@@ -17,7 +18,8 @@ export async function GET(req: NextApiRequest) {
             }
         });
 
-        if (!movie) throw new Error("Movie does not exist at id");
+        if (!movie) 
+            Response.json({ error: "Movie does not exist at id" });
 
         return Response.json(movie);
     } catch (err) {
