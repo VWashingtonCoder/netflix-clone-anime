@@ -4,12 +4,14 @@ import FavoriteButton from "./FavoriteButton";
 import { useRouter } from "next/navigation";
 import useInfoModal from "@/hooks/useInfoModal";
 import { BiChevronDown } from "react-icons/bi";
+import { useSession } from "next-auth/react";
 
 interface MovieCardProps {
   data: Record<string, any>;
 }
 
 export default function MovieCard({ data }: MovieCardProps) {
+  const { status } = useSession();
   const router = useRouter();
   const { openModal } = useInfoModal();
 
@@ -81,8 +83,10 @@ export default function MovieCard({ data }: MovieCardProps) {
             "
         >
           <div className="flex flex-row items-center gap-3">
-            <div
-              className="
+            {status === "authenticated" && (
+              <>
+                <button
+                  className="
                         cursor-pointer
                         w-6
                         h-6
@@ -96,12 +100,14 @@ export default function MovieCard({ data }: MovieCardProps) {
                         transition
                         hover:bg-neutral-300
                     "
-              onClick={() => router.push(`/watch/${data?.id}`)}
-            >
-              <BsFillPlayFill size={30} />
-            </div>
+                  onClick={() => router.push(`/watch/${data?.id}`)}
+                >
+                  <BsFillPlayFill size={30} />
+                </button>
 
-            <FavoriteButton movieId={data.id} />
+                <FavoriteButton movieId={data.id} />
+              </>
+            )}
 
             <button
               onClick={() => openModal(data?.id)}

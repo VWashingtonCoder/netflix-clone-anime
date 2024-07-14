@@ -3,8 +3,10 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import PlayButton from "./PlayButton";
 import { useCallback } from "react";
 import useInfoModal from "@/hooks/useInfoModal";
+import { useSession } from "next-auth/react";
 
 export default function Billboard() {
+  const { status } = useSession();
   const { data } = useBillboard();
   const { openModal } = useInfoModal();
 
@@ -25,7 +27,7 @@ export default function Billboard() {
         muted
         loop
         poster={data?.thumbnailUrl}
-        src={data?.videoUrl}
+        src={status === "authenticated" ? data?.videoUrl : ""}
       ></video>
 
       <div className="absolute top-[30%] md:top-[40%] ml-4 md:ml-16">
@@ -57,7 +59,7 @@ export default function Billboard() {
         </p>
 
         <div className="flex flex-row items-center mt-3 md:mt-4 gap-3">
-          <PlayButton movieId={data?.id} />
+          {status === "authenticated" && <PlayButton movieId={data?.id} />}
           <button
             onClick={handleOpenModal}
             className="

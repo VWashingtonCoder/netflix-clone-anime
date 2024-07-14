@@ -4,6 +4,8 @@ import PlayButton from "./PlayButton";
 import FavoriteButton from "./FavoriteButton";
 import useInfoModal from "@/hooks/useInfoModal";
 import useMovie from "@/hooks/useMovie";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface InfoModalProps {
   visible?: boolean;
@@ -14,6 +16,11 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
   const [isVisible, setIsVisible] = useState(!!visible);
   const { movieId } = useInfoModal();
   const { data = {} } = useMovie(movieId);
+  const { status } = useSession();
+
+  console.log(movieId);
+  console.log(status);
+  console.log(data);
 
   useEffect(() => {
     setIsVisible(!!visible);
@@ -78,8 +85,8 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
               muted
               loop
               poster={data?.thumbnailUrl}
-              src={data?.videoUrl}
-            ></video>
+              src={status === "authenticated" ? data?.videoUrl : ""}
+            />
 
             <div
               className="
@@ -99,9 +106,21 @@ export default function InfoModal({ visible, onClose }: InfoModalProps) {
               >
                 {data?.title}
               </p>
+
               <div className="flex flex-row gap-4 items-center">
-                <PlayButton movieId={data?.id} />
-                <FavoriteButton movieId={data?.id} />
+                {status === "authenticated" ? (
+                  <>
+                    <PlayButton movieId={data?.id} />
+                    <FavoriteButton movieId={data?.id} />
+                  </>
+                ) : (
+                  <Link
+                    className="text-[18px] text-white cursor-pointer hover:text-gray-300 transition"
+                    href="/auth"
+                  >
+                    Sign In To Watch
+                  </Link>
+                )}
               </div>
             </div>
           </div>
